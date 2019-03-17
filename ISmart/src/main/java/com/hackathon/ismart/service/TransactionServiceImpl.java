@@ -57,6 +57,6 @@ public class TransactionServiceImpl implements TransactionService {
 
 	@Override
 	public List<Transaction> getCurrentTransactions(Long customerid) {
-		return transactionRepository.findCurrentTransactions(customerid);
+		return transactionRepository.findFirst10ByCustomerIdOrderByDateDesc(customerid);
 	}
 }
