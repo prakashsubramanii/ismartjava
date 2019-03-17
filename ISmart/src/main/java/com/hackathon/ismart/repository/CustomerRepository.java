@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.hackathon.ismart.model.Customer;
 
 @Repository
-public interface CustomerRepository extends JpaRepository<Long, Customer>{
+public interface CustomerRepository extends JpaRepository<Customer,Long>{
 
 }
