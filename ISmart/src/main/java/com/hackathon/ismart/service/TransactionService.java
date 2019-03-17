@@ -1,5 +1,6 @@
 package com.hackathon.ismart.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -16,5 +17,7 @@ public interface TransactionService {
 	public List<Transaction> getAllTransactions(Long customerid);
 
 	public List<Transaction> getCurrentTransactions(Long customerid);
+
+	public List<Transaction> getPeriodicTransactions(Long customerId, Date startDate, Date endDate);
 	
 }

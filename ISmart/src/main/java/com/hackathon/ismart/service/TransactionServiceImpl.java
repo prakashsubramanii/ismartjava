@@ -1,5 +1,6 @@
 package com.hackathon.ismart.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,6 +58,14 @@ public class TransactionServiceImpl implements TransactionService {
 
 	@Override
 	public List<Transaction> getCurrentTransactions(Long customerid) {
-		return transactionRepository.findFirst10ByCustomerIdOrderByDateDesc(customerid);
+		return transactionRepository.findFirst5ByCustomerIdOrderByDateDesc(customerid);
 	}
+	
+	@Override
+    public List<Transaction> getPeriodicTransactions(Long customerId,Date startDate, Date endDate){
+                   
+                   return transactionRepository.findByPeriod(customerId,startDate, endDate);
+                   
+    }
+
 }

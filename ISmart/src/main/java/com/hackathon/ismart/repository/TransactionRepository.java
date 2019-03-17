@@ -1,5 +1,6 @@
 package com.hackathon.ismart.repository;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,6 +14,10 @@ public interface TransactionRepository extends JpaRepository<Transaction,Long>{
 
 	public List<Transaction> findByCustomerId(Long customerid);
 
-	public List<Transaction> findFirst10ByCustomerIdOrderByDateDesc(Long customerid);
+	public List<Transaction> findFirst5ByCustomerIdOrderByDateDesc(Long customerid);
+	
+	@Query("SELECT t FROM Transaction t where customerId = ?1 AND date BETWEEN ?1 AND ?2")
+    public List<Transaction> findByPeriod(Long customerId,Date startDate, Date endDate);
+
 
 }

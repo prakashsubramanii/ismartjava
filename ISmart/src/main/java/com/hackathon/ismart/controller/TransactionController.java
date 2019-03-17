@@ -1,5 +1,8 @@
 package com.hackathon.ismart.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +13,8 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import com.hackathon.ismart.model.Customer;
 import com.hackathon.ismart.model.Transaction;
 import com.hackathon.ismart.service.TransactionService;
 
@@ -31,4 +34,11 @@ public class TransactionController {
 	public ResponseEntity<List<Transaction>> getCurrentTransactions(@PathVariable Long customerid){
 		return new ResponseEntity<List<Transaction>>(transactionService.getCurrentTransactions(customerid),HttpStatus.OK);
 	}
+	
+	@GetMapping("/periodic/{customerid}")
+    public ResponseEntity<List<Transaction>> getPeriodicTransactions(@PathVariable Long customerid, @RequestParam String startDate, @RequestParam String endDate) throws ParseException{
+                   return new ResponseEntity<List<Transaction>>(transactionService.getPeriodicTransactions(customerid,new SimpleDateFormat("yyyy-MM-dd").parse(startDate),new SimpleDateFormat("yyyy-MM-dd").parse(endDate)),HttpStatus.OK);
+    }
+
+
 }
