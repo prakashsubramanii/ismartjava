@@ -25,7 +25,10 @@ public class CustomerServiceImpl implements CustomerService {
 		return customer.getBalance();
 	}
 	
-	public void updateBalance(Double Balance) {
+	public void updateBalance(Long customerId,Double balance) {
+		Customer customer = customerRepo.findById(customerId).orElseThrow(()->new CustomerNotFoundException());
+		customer.setBalance(balance);
+		customerRepo.save(customer);
 		
 	}
 

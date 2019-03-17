@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.hackathon.ismart.model.Transaction;
 
 @Repository
-public interface TransactionRepository extends JpaRepository<Long, Transaction>{
+public interface TransactionRepository extends JpaRepository<Transaction,Long>{
 
 }
