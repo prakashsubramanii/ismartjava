@@ -13,6 +13,8 @@ public interface TransactionService {
 
 	public TrasactionResponse receivePayment(Transaction transaction);
 	
-	public List<Transaction> getAllTransactions();
+	public List<Transaction> getAllTransactions(Long customerid);
+
+	public List<Transaction> getCurrentTransactions(Long customerid);
 	
 }

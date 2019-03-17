@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.hackathon.ismart.model.Customer;
@@ -21,8 +22,13 @@ public class TransactionController {
 	@Autowired
 	TransactionService transactionService;
 	
-	@GetMapping
-	public ResponseEntity<List<Transaction>> getAllTransactions(){
-		return new ResponseEntity(transactionService.getAllTransactions(),HttpStatus.OK);
+	@GetMapping("/{customerid}")
+	public ResponseEntity<List<Transaction>> getAllTransactions(@PathVariable Long customerid){
+		return new ResponseEntity<List<Transaction>>(transactionService.getAllTransactions(customerid),HttpStatus.OK);
+	}
+	
+	@GetMapping("/current/{customerid}")
+	public ResponseEntity<List<Transaction>> getCurrentTransactions(@PathVariable Long customerid){
+		return new ResponseEntity<List<Transaction>>(transactionService.getCurrentTransactions(customerid),HttpStatus.OK);
 	}
 }
