@@ -16,7 +16,7 @@ public interface TransactionRepository extends JpaRepository<Transaction,Long>{
 
 	public List<Transaction> findFirst5ByCustomerIdOrderByDateDesc(Long customerid);
 	
-	@Query("SELECT t FROM Transaction t where customerId = ?1 AND date BETWEEN ?1 AND ?2")
+	@Query("SELECT t FROM Transaction t where customerId = ?1 AND (date BETWEEN ?2 AND ?3)")
     public List<Transaction> findByPeriod(Long customerId,Date startDate, Date endDate);
 
 
