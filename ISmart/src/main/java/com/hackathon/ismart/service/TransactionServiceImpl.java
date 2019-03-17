@@ -16,12 +16,12 @@ public class TransactionServiceImpl implements TransactionService {
 	private CustomerServiceImpl customerService;
 	
 	public TrasactionResponse makePayment(Transaction transaction) {
-		
-		Double bal = customerService.getBalance(transaction.getCustomer().getCustomerId());
+		Long custId = transaction.getCustomer().getCustomerId();
+		Double bal = customerService.getBalance(custId);
 		if(transaction.getAmount() > bal) {
 			throw new InsufficientFundsException("Insufficient Funds");
 		}
-		customerService.updateBalance(bal-transaction.getAmount());
+		customerService.updateBalance(custId,bal-transaction.getAmount());
 		Transaction savedTransaction = transactionRepository.save(transaction);
 		TrasactionResponse trasactionResponse = new TrasactionResponse();
 		 trasactionResponse.setTrasactionId(savedTransaction.getTransactionId());
@@ -30,7 +30,9 @@ public class TransactionServiceImpl implements TransactionService {
 	}
 	
 public TrasactionResponse receivePayment(Transaction transaction) {
-		
+	Long custId = transaction.getCustomer().getCustomerId();
+	Double bal = customerService.getBalance(custId);
+	   customerService.updateBalance(custId,bal+transaction.getAmount());
 		Transaction savedTransaction = transactionRepository.save(transaction);
 		TrasactionResponse trasactionResponse = new TrasactionResponse();
 		 trasactionResponse.setTrasactionId(savedTransaction.getTransactionId());
