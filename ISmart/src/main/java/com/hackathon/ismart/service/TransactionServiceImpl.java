@@ -1,12 +1,16 @@
 package com.hackathon.ismart.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.hackathon.ismart.exceptions.InsufficientFundsException;
 import com.hackathon.ismart.model.Transaction;
 import com.hackathon.ismart.model.TrasactionResponse;
 import com.hackathon.ismart.repository.TransactionRepository;
 
+@Service
 public class TransactionServiceImpl implements TransactionService {
 	
 	@Autowired	
@@ -16,12 +20,14 @@ public class TransactionServiceImpl implements TransactionService {
 	private CustomerServiceImpl customerService;
 	
 	public TrasactionResponse makePayment(Transaction transaction) {
-		Long custId = transaction.getCustomer().getCustomerId();
+		Long custId = transaction.getCustomerId();
 		Double bal = customerService.getBalance(custId);
 		if(transaction.getAmount() > bal) {
 			throw new InsufficientFundsException("Insufficient Funds");
 		}
-		customerService.updateBalance(custId,bal-transaction.getAmount());
+		Double updatedBalance = bal-transaction.getAmount();
+		customerService.updateBalance(custId,updatedBalance);
+		transaction.setBalance(updatedBalance);
 		Transaction savedTransaction = transactionRepository.save(transaction);
 		TrasactionResponse trasactionResponse = new TrasactionResponse();
 		 trasactionResponse.setTrasactionId(savedTransaction.getTransactionId());
@@ -29,14 +35,22 @@ public class TransactionServiceImpl implements TransactionService {
 		
 	}
 	
+	@Override
 public TrasactionResponse receivePayment(Transaction transaction) {
-	Long custId = transaction.getCustomer().getCustomerId();
+	Long custId = transaction.getCustomerId();
 	Double bal = customerService.getBalance(custId);
-	   customerService.updateBalance(custId,bal+transaction.getAmount());
+	Double updatedBalance = bal+transaction.getAmount();
+	   customerService.updateBalance(custId,updatedBalance);
+	   transaction.setBalance(updatedBalance);
 		Transaction savedTransaction = transactionRepository.save(transaction);
 		TrasactionResponse trasactionResponse = new TrasactionResponse();
 		 trasactionResponse.setTrasactionId(savedTransaction.getTransactionId());
 		 return trasactionResponse;
 		
+	}
+
+	@Override
+	public List<Transaction> getAllTransactions() {
+		return transactionRepository.findAll();
 	}
 }

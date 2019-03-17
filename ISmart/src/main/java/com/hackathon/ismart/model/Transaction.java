@@ -1,5 +1,6 @@
 package com.hackathon.ismart.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
@@ -8,28 +9,31 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-public class Transaction {
+@Table
+public class Transaction implements Serializable{
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name="id")
 	private Long transactionId;
 	private String description;
 	private String spendCategory;
 	private double amount;
 	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="transactionDate")
 	private Date date;
 	private String paymentType;
 	private double balance;
-	@ManyToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name="customerId")
-	private Customer customer;
+	/*@ManyToOne(cascade=CascadeType.ALL)*/
+	private Long customerId;
+	
+	public Transaction() {}
 	
 	public double getBalance() {
 		return balance;
@@ -73,11 +77,19 @@ public class Transaction {
 	public void setPaymentType(String paymentType) {
 		this.paymentType = paymentType;
 	}
-	public Customer getCustomer() {
+	/*public Customer getCustomer() {
 		return customer;
 	}
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
+	}*/
+
+	public Long getCustomerId() {
+		return customerId;
+	}
+
+	public void setCustomerId(Long customerId) {
+		this.customerId = customerId;
 	}
 		
 }
