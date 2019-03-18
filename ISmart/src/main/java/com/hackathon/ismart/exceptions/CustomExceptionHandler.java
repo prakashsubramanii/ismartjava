@@ -42,4 +42,14 @@ public class CustomExceptionHandler{
     
   }
   
+  @ExceptionHandler(Exception.class)
+  public final ResponseEntity<ExceptionResponse> DefaultException
+  (Exception ex, WebRequest request) {
+	  
+	  ExceptionResponse errorDetails = new ExceptionResponse(new Date(), ex.getMessage(),
+        request.getDescription(false));
+    return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
+    
+  }
+  
 }
