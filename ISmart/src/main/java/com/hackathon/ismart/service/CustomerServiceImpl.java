@@ -31,5 +31,10 @@ public class CustomerServiceImpl implements CustomerService {
 		customerRepo.save(customer);
 		
 	}
+	
+	public void update(Customer customer) {
+		customerRepo.save(customer);
+		
+	}
 
 }
